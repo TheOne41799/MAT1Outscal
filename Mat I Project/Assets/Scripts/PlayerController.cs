@@ -20,6 +20,11 @@ public class PlayerController : MonoBehaviour
     private List<GameObject> segments = new List<GameObject>();
     private List<Vector2> previousPositions = new List<Vector2>();
 
+    [SerializeField] private int increaseLengthBy = 3;
+    [SerializeField] private int decreaseLengthBy = 1;
+
+    private FoodSpawningController foodSpawningController;
+
 
     public void InitializeSnake(float speed, Vector2 spawnPosition)
     {
@@ -27,6 +32,7 @@ public class PlayerController : MonoBehaviour
         transform.position = spawnPosition;
         currentDirection = Vector2.right;
         ResetSegments();
+        foodSpawningController = FindObjectOfType<FoodSpawningController>();
     }
 
 
@@ -62,7 +68,7 @@ public class PlayerController : MonoBehaviour
     {
         moveTimer += Time.deltaTime;
 
-        if (moveTimer > moveInterval)
+        if (moveTimer >= moveInterval)
         {
             StorePreviousPositions();
             MoveSnake();
@@ -144,7 +150,69 @@ public class PlayerController : MonoBehaviour
             segments[i].transform.position = previousPositions[i - 1];
         }
     }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("MassGainer"))
+        {
+            ChangeSnakeLength(increaseLengthBy);
+            foodSpawningController.OnFoodCollected();
+        }
+        else if (collision.CompareTag("MassBurner"))
+        {
+            ChangeSnakeLength(-decreaseLengthBy);
+            foodSpawningController.OnFoodCollected();
+        }
+    }
+
+
+    private void ChangeSnakeLength(int lengthChange)
+    {
+        if (lengthChange > 0)
+        {
+            for(int i = 0; i < lengthChange; i++)
+            {
+                AddBodySegment();
+            }
+        }
+        else
+        {
+            for(int i = 0; i < Mathf.Abs(lengthChange); i++)
+            {
+                RemoveBodySegment();
+            }
+        }
+    }
+
+
+    private void AddBodySegment()
+    {
+        GameObject newSegment = Instantiate(snakeBodyPrefab);
+        newSegment.transform.position = segments[segments.Count - 1].transform.position;
+        segments.Insert(segments.Count - 1, newSegment);
+        previousPositions.Add(newSegment.transform.position);
+    }
+
+
+    private void RemoveBodySegment()
+    {
+        if (segments.Count > 2)
+        {
+            GameObject segmentToRemove = segments[segments.Count - 2];
+            segments.RemoveAt(segments.Count - 2);
+            Destroy(segmentToRemove);
+        }
+    }
 }
+
+
+
+
+
+
+
+
 
 
 
