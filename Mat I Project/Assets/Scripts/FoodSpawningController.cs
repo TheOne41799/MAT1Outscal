@@ -10,6 +10,10 @@ public class FoodSpawningController : MonoBehaviour
     [SerializeField] private float spawnIntervalMinimum = 7f;
     [SerializeField] private float spawningIntervalMaximum = 11f;
 
+    [SerializeField] private LayerMask snakeLayer;
+
+    [SerializeField] private float respawnRadius = 0.5f;
+
     private GameObject currentFood;
     private Coroutine respawnCoroutine;
 
@@ -44,7 +48,10 @@ public class FoodSpawningController : MonoBehaviour
         {
             Vector2 randomPosition = new Vector2(Random.Range(-18, 18), Random.Range(-18, 18));
 
-            return randomPosition;
+            if (!Physics2D.OverlapCircle(randomPosition, respawnRadius, snakeLayer))
+            {
+                return randomPosition;
+            }
         }
 
         return Vector2.zero;
@@ -65,9 +72,14 @@ public class FoodSpawningController : MonoBehaviour
     private IEnumerator RespawnFoodAfterTimerout()
     {
         int interval = (int) Random.Range(spawnIntervalMinimum, spawningIntervalMaximum);
-        Debug.Log(interval);
-
         yield return new WaitForSeconds(interval);
+
+        SpawnRandomFood();
+    }
+
+
+    public void OnFoodCollected()
+    {
         SpawnRandomFood();
     }
 }

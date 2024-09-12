@@ -71,6 +71,8 @@ MonoBehaviour:
   snakeBodyPrefab: {fileID: 8817650408669137484, guid: 7c2a113af09c8814cad8b942077eb494, type: 3}
   snakeTailPrefab: {fileID: 1594036786920538815, guid: d29c36985b30c374086465dda8fc0007, type: 3}
   initialBodyCount: 6
+  increaseLengthBy: 3
+  decreaseLengthBy: 1
 --- !u!61 &4443099429961392852
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -81,7 +83,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

@@ -510,6 +510,10 @@ MonoBehaviour:
   massBurnerPrefab: {fileID: 6351684186324961249, guid: 815cdcd32c6ca53419c4e8f97adb4785, type: 3}
   spawnIntervalMinimum: 7
   spawningIntervalMaximum: 11
+  snakeLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  respawnRadius: 0.5
 --- !u!4 &1513994794
 Transform:
   m_ObjectHideFlags: 0
