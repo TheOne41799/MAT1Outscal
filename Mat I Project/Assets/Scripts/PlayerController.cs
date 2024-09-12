@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -24,6 +23,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int decreaseLengthBy = 1;
 
     private FoodSpawningController foodSpawningController;
+
+    private int score;
+    public int Score { set { score = value; } get { return score; } }
+
+    private bool isShieldPowerupActive = false;
+    private bool isScoreBoostPowerupActive = false;
+    private bool isSpeedupPowerupActive = false;
+
+    private float originalMoveIntervalBeforeSpeedupPowerup;
 
 
     public void InitializeSnake(float speed, Vector2 spawnPosition)
@@ -75,6 +83,8 @@ public class PlayerController : MonoBehaviour
             MoveSnakeBodyAndTailSegments();
 
             InputManager.Instance.CanChangeDirection = true;
+
+            CheckSelfCollision();
 
             moveTimer = 0;
         }
@@ -158,11 +168,34 @@ public class PlayerController : MonoBehaviour
         {
             ChangeSnakeLength(increaseLengthBy);
             foodSpawningController.OnFoodCollected();
+
+            UpdateScore(3);
+
+            Destroy(collision.gameObject);
         }
         else if (collision.CompareTag("MassBurner"))
         {
             ChangeSnakeLength(-decreaseLengthBy);
             foodSpawningController.OnFoodCollected();
+
+            UpdateScore(-1);
+
+            Destroy(collision.gameObject);
+        }
+        else if(collision.CompareTag("ShieldPowerup"))
+        {
+            ActivateShield();
+            Destroy(collision.gameObject);
+        }
+        else if(collision.CompareTag("ScoreBoostPowerup"))
+        {
+            ActivateScoreBoost();
+            Destroy(collision.gameObject);
+        }
+        else if(collision.CompareTag("SpeedupPowerup"))
+        {
+            ActivateSpeedup();
+            Destroy(collision.gameObject);
         }
     }
 
@@ -204,6 +237,110 @@ public class PlayerController : MonoBehaviour
             Destroy(segmentToRemove);
         }
     }
+
+
+    private void CheckSelfCollision()
+    {
+        if (isShieldPowerupActive) return;
+
+        for (int i = 1; i < segments.Count; i++)
+        {
+            if(Vector2.Distance(transform.position, segments[i].transform.position) < 0.1f)
+            {
+                GameOver();
+                break;
+            }
+        }
+    }
+
+
+    private void GameOver()
+    {
+        Debug.Log("Game Over");
+
+        //Time.timeScale = 0;
+    }
+
+
+    private void UpdateScore(int scoreAmount)
+    {
+        if (isScoreBoostPowerupActive) scoreAmount *= 2;
+
+        score += scoreAmount;
+
+        if(score < 0) score = 0;
+
+        Debug.Log(score);
+    }
+
+
+    private void ActivateShield()
+    {
+        Debug.Log("Shield Activated");
+
+        isShieldPowerupActive = true;
+
+        StartCoroutine(DeactivateShield(10f));
+    }
+
+
+    private IEnumerator DeactivateShield(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        isShieldPowerupActive = false;
+
+        Debug.Log("Shield Deactivated");
+    }
+
+
+    private void ActivateScoreBoost()
+    {
+        Debug.Log("Score Boost Activated");
+
+        isScoreBoostPowerupActive = true;
+
+        StartCoroutine(DeactivateScoreBoost(10f));
+    }
+
+
+    private IEnumerator DeactivateScoreBoost(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        isScoreBoostPowerupActive = false;
+
+        Debug.Log("Score Boost Deactivated");
+    }
+
+
+    private void ActivateSpeedup()
+    {
+        Debug.Log("Speedup Activated");
+
+        isSpeedupPowerupActive = true;
+
+        originalMoveIntervalBeforeSpeedupPowerup = moveInterval;
+
+        moveInterval = 0.05f;
+
+        StartCoroutine(DeactivateSpeedup(10f));
+    }
+
+
+    private IEnumerator DeactivateSpeedup(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        isSpeedupPowerupActive = false;
+
+        moveInterval = originalMoveIntervalBeforeSpeedupPowerup;
+
+        Debug.Log("Speedup Deactivated");
+    }
+
+
+
 }
 
 
