@@ -10,6 +10,7 @@ public class PlayerBodyAndTail : MonoBehaviour
         {
             if (this.gameObject.tag == "PlayerOneBodyOrTail")
             {
+                //check for isShieldActive
                 GameManager.Instance.PlayerTwoWinsInTwoPlayerMode();
             }
             else
@@ -27,6 +28,7 @@ public class PlayerBodyAndTail : MonoBehaviour
             }
             else
             {
+                //check for isShieldActive
                 GameManager.Instance.PlayerOneWinsInTwoPlayerMode();
             }
         }
