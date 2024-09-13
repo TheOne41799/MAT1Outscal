@@ -6,6 +6,13 @@ TagManager:
   tags:
   - MassGainer
   - MassBurner
+  - ShieldPowerup
+  - ScoreBoostPowerup
+  - SpeedupPowerup
+  - PlayerOne
+  - PlayerTwo
+  - PlayerOneBodyOrTail
+  - PlayerTwoBodyOrTail
   layers:
   - Default
   - TransparentFX
@@ -14,7 +21,7 @@ TagManager:
   - Water
   - UI
   - SnakeBodyTail
-  - 
+  - Foods
   - 
   - 
   - 

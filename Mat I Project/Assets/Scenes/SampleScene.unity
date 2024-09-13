@@ -460,7 +460,7 @@ MonoBehaviour:
   snakePrefab: {fileID: 4443099429961392850, guid: cc6b1dcddf4cb314289230a5181e95f5, type: 3}
   spawnPointPlayer1: {fileID: 1312924102}
   spawnPointPlayer2: {fileID: 575676120}
-  currentGameMode: 0
+  currentGameMode: 1
   moveInterval: 0.1
 --- !u!4 &1499760264
 Transform:
@@ -528,6 +528,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1895684817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1895684819}
+  - component: {fileID: 1895684818}
+  m_Layer: 0
+  m_Name: PowerupSpawningController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1895684818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895684817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e2dd14dbc34554d88cc95937b4b310, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shieldPowerupPrefab: {fileID: 8094743378774932040, guid: 405c5945f03d0724a9a90433be0d57da, type: 3}
+  scoreBoostPowerupPrefab: {fileID: 8934072415798604778, guid: 72bb8aa24f8097f479bbe43d2e28f857, type: 3}
+  speedupPowerupPrefab: {fileID: 3564651975888157716, guid: 838eaced6a6d53c44a91671d4862dc1b, type: 3}
+  minSpawnInterval: 5
+  maxSpawnInterval: 15
+  powerupLifeTime: 6
+  snakeLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  foodLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  respawnRadius: 0.5
+--- !u!4 &1895684819
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895684817}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2107971912
 GameObject:
