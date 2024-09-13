@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
                 InputManager.Instance.CanChangeDirectionPlayerTwo = true;
             }
 
-            CheckSelfCollision();
+            //CheckSelfCollision();
 
             moveTimer = 0;
         }
@@ -297,7 +297,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void CheckSelfCollision()
+    /*private void CheckSelfCollision()
     {
         if (isShieldPowerupActive) return;
 
@@ -309,7 +309,7 @@ public class PlayerController : MonoBehaviour
                 break;
             }
         }
-    }
+    }*/
 
 
     private void GameOver()
