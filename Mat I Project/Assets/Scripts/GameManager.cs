@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
@@ -9,9 +10,13 @@ public class GameManager : MonoBehaviour
 
 
     [SerializeField] private GameObject snakePrefab;
+
     [SerializeField] private Transform spawnPointPlayer1;
     [SerializeField] private Transform spawnPointPlayer2;
+
     [SerializeField] private GameMode currentGameMode = GameMode.ONE_PLAYER;
+    public GameMode CurrentGameMode { get { return currentGameMode; } }
+
     [SerializeField] private float moveInterval = 0.1f;
 
     private List<GameObject> activeSnakes = new List<GameObject>();
@@ -37,12 +42,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private void Update()
-    {
-        
-    }
-
-
     private void StartGame()
     {
         ClearExistingSnakes();
@@ -51,11 +50,11 @@ public class GameManager : MonoBehaviour
         switch (currentGameMode)
         {
             case GameMode.ONE_PLAYER:
-                SpawnSnake(spawnPointPlayer1.position, moveInterval); 
+                SpawnSnake(spawnPointPlayer1.position, moveInterval, 1); 
                 break;
             case GameMode.TWO_PLAYER:
-                SpawnSnake(spawnPointPlayer1.position, moveInterval);
-                SpawnSnake(spawnPointPlayer2.position, moveInterval);
+                SpawnSnake(spawnPointPlayer1.position, moveInterval, 1);
+                SpawnSnake(spawnPointPlayer2.position, moveInterval, 2);
                 break;
         }
     }
@@ -72,10 +71,25 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private void SpawnSnake(Vector2 spawnPosition, float speed)
+    private void SpawnSnake(Vector2 spawnPosition, float speed, int playerID)
     {
         GameObject newSnake = Instantiate(snakePrefab, spawnPosition, Quaternion.identity);
-        newSnake.GetComponent<PlayerController>().InitializeSnake(speed, spawnPosition);
+
+        PlayerController playerController = newSnake.GetComponent<PlayerController>();
+        playerController.playerID = playerID;
+        playerController.InitializeSnake(speed, spawnPosition);
+
+
+        if (playerID == 1)
+        {
+            newSnake.tag = "PlayerOne";
+        }
+        else if (playerID == 2)
+        {
+            newSnake.tag = "PlayerTwo";
+        }
+
+
         activeSnakes.Add(newSnake);
     }
 
@@ -83,6 +97,18 @@ public class GameManager : MonoBehaviour
     public void ChangeGameMode(GameMode gameMode)
     {
         currentGameMode = gameMode;
+    }
+
+
+    public void PlayerOneWinsInTwoPlayerMode()
+    {
+        Debug.Log("Player One Wins");
+    }
+
+
+    public void PlayerTwoWinsInTwoPlayerMode()
+    {
+        Debug.Log("Player Two Wins");
     }
 }
 

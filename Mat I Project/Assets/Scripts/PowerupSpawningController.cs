@@ -10,7 +10,7 @@ public class PowerupSpawningController : MonoBehaviour
 
     [SerializeField] private float minSpawnInterval = 5f;
     [SerializeField] private float maxSpawnInterval = 15f;
-    [SerializeField] private float powerupLifeTime = 10f;
+    [SerializeField] private float powerupLifeTime = 6f;
 
     [SerializeField] private LayerMask snakeLayer;
     [SerializeField] private LayerMask foodLayer;

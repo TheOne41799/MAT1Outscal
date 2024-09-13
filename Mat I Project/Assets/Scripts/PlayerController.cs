@@ -6,6 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
+    public int playerID = 1;
+
     private Vector2 currentDirection;
     private float moveInterval;
     private float moveTimer;
@@ -54,20 +56,41 @@ public class PlayerController : MonoBehaviour
 
     private void HandleInput()
     {
-        switch (InputManager.Instance.CurrentMovementDirection)
+        if (playerID == 1)
         {
-            case Direction.UP:
-                currentDirection = Vector2.up;
-                break;
-            case Direction.DOWN:
-                currentDirection = Vector2.down;
-                break;
-            case Direction.LEFT:
-                currentDirection = Vector2.left;
-                break;
-            case Direction.RIGHT:
-                currentDirection = Vector2.right;
-                break;
+            switch (InputManager.Instance.PlayerOneCurrentMovementDirection)
+            {
+                case Direction.UP:
+                    currentDirection = Vector2.up;
+                    break;
+                case Direction.DOWN:
+                    currentDirection = Vector2.down;
+                    break;
+                case Direction.LEFT:
+                    currentDirection = Vector2.left;
+                    break;
+                case Direction.RIGHT:
+                    currentDirection = Vector2.right;
+                    break;
+            }
+        }
+        else if (playerID == 2)
+        {
+            switch (InputManager.Instance.PlayerTwoCurrentMovementDirection)
+            {
+                case Direction.UP:
+                    currentDirection = Vector2.up;
+                    break;
+                case Direction.DOWN:
+                    currentDirection = Vector2.down;
+                    break;
+                case Direction.LEFT:
+                    currentDirection = Vector2.left;
+                    break;
+                case Direction.RIGHT:
+                    currentDirection = Vector2.right;
+                    break;
+            }
         }
     }
 
@@ -82,7 +105,12 @@ public class PlayerController : MonoBehaviour
             MoveSnake();
             MoveSnakeBodyAndTailSegments();
 
-            InputManager.Instance.CanChangeDirection = true;
+            InputManager.Instance.CanChangeDirectionPlayerOne = true;
+
+            if (GameManager.Instance.CurrentGameMode == GameMode.TWO_PLAYER)
+            {
+                InputManager.Instance.CanChangeDirectionPlayerTwo = true;
+            }
 
             CheckSelfCollision();
 
@@ -127,6 +155,16 @@ public class PlayerController : MonoBehaviour
             currentPos -= (Vector2)transform.right * gridSize.x;
             GameObject newSegment = Instantiate(snakeBodyPrefab);
             newSegment.transform.position = currentPos;
+
+            if (playerID == 1)
+            {
+                newSegment.tag = "PlayerOneBodyOrTail";
+            }
+            else if (playerID == 2)
+            {
+                newSegment.tag = "PlayerTwoBodyOrTail";
+            }
+
             segments.Add(newSegment);
             previousPositions.Add(currentPos);
         }
@@ -139,6 +177,16 @@ public class PlayerController : MonoBehaviour
     {
         GameObject newTail = Instantiate(snakeTailPrefab);
         newTail.transform.position = segments[segments.Count - 1].transform.position;
+
+        if (playerID == 1)
+        {
+            newTail.tag = "PlayerOneBodyOrTail";
+        }
+        else if (playerID == 2)
+        {
+            newTail.tag = "PlayerTwoBodyOrTail";
+        }
+
         segments.Add(newTail);
         previousPositions.Add(newTail.transform.position);
     }
@@ -223,6 +271,16 @@ public class PlayerController : MonoBehaviour
     {
         GameObject newSegment = Instantiate(snakeBodyPrefab);
         newSegment.transform.position = segments[segments.Count - 1].transform.position;
+
+        if (playerID == 1)
+        {
+            newSegment.tag = "PlayerOneBodyOrTail";
+        }
+        else if (playerID == 2)
+        {
+            newSegment.tag = "PlayerTwoBodyOrTail";
+        }
+
         segments.Insert(segments.Count - 1, newSegment);
         previousPositions.Add(newSegment.transform.position);
     }
@@ -256,8 +314,6 @@ public class PlayerController : MonoBehaviour
 
     private void GameOver()
     {
-        Debug.Log("Game Over");
-
         //Time.timeScale = 0;
     }
 
@@ -269,8 +325,6 @@ public class PlayerController : MonoBehaviour
         score += scoreAmount;
 
         if(score < 0) score = 0;
-
-        Debug.Log(score);
     }
 
 
@@ -338,9 +392,6 @@ public class PlayerController : MonoBehaviour
 
         Debug.Log("Speedup Deactivated");
     }
-
-
-
 }
 
 
