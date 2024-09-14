@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2763725212679050413}
   - component: {fileID: 4358635555869284983}
   - component: {fileID: 2241507979195753235}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ScoreBoostPowerup
   m_TagString: ScoreBoostPowerup
   m_Icon: {fileID: 0}

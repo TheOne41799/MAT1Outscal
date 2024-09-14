@@ -24,17 +24,27 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int increaseLengthBy = 3;
     [SerializeField] private int decreaseLengthBy = 1;
 
+    [SerializeField] private int screenWrappingCordinateX = 34;
+    [SerializeField] private int screenWrappingCordinateTopY = 9;
+    [SerializeField] private int screenWrappingCordinateBottomY = 18;
+
     private FoodSpawningController foodSpawningController;
 
     private int score;
-    public int Score { set { score = value; } get { return score; } }
+    public int Score { get { return score; } }
+
+    private int highScore;
+    public int HighScore { get { return highScore; } }
 
     private bool isShieldPowerupActive = false;
     public bool IsShieldPowerupActive { get { return isShieldPowerupActive; } }
     private bool isScoreBoostPowerupActive = false;
-    private bool isSpeedupPowerupActive = false;
+    //private bool isSpeedupPowerupActive = false;
 
     private float originalMoveIntervalBeforeSpeedupPowerup;
+
+    private Camera cam;
+    private float cameraShakeDuration = 0.4f;
 
 
     public void InitializeSnake(float speed, Vector2 spawnPosition)
@@ -43,9 +53,16 @@ public class PlayerController : MonoBehaviour
         transform.position = spawnPosition;
 
         InputManager.Instance.ResetPlayerDirectionToDefault();
-        
+
+        cam = Camera.main;
+
         ResetSegments();
         foodSpawningController = FindObjectOfType<FoodSpawningController>();
+
+        score = 0;
+        GameManager.Instance.Score = score;
+        highScore = GameManager.Instance.HighScore;
+        GameManager.Instance.UpdateScore();
     }
 
 
@@ -129,10 +146,10 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 WrapSnakeAroundScreen(Vector2 position)
     {
-        if (position.x > 19) position.x = -19;
-        else if (position.x < -19) position.x = 19;
-        if (position.y > 19) position.y = -19;
-        else if (position.y < -19) position.y = 19;
+        if (position.x > screenWrappingCordinateX) position.x = -screenWrappingCordinateX;
+        else if (position.x < -screenWrappingCordinateX) position.x = screenWrappingCordinateX;
+        if (position.y > screenWrappingCordinateTopY) position.y = -screenWrappingCordinateBottomY;
+        else if (position.y < -screenWrappingCordinateBottomY) position.y = screenWrappingCordinateTopY;
 
         return position;
     }
@@ -226,6 +243,8 @@ public class PlayerController : MonoBehaviour
         }
         else if (collision.CompareTag("MassBurner"))
         {
+            cam.gameObject.GetComponent<CamerShake>().TriggerShake(cameraShakeDuration);
+
             SoundManager.Instance.Play(Sounds.MASS_BURNER_COLLECTED);
             ChangeSnakeLength(-decreaseLengthBy);
             foodSpawningController.OnFoodCollected();
@@ -321,10 +340,25 @@ public class PlayerController : MonoBehaviour
     private void UpdateScore(int scoreAmount)
     {
         if (isScoreBoostPowerupActive) scoreAmount *= 2;
-
         score += scoreAmount;
 
         if (score < 0) score = 0;
+
+        GameManager.Instance.Score = score;
+
+        UpdateHighScore();
+        
+        GameManager.Instance.UpdateScore();
+    }
+
+
+    private void UpdateHighScore()
+    {
+        if (score > highScore)
+        {
+            highScore = score;
+            GameManager.Instance.HighScore = highScore;
+        }
     }
 
 
@@ -387,7 +421,7 @@ public class PlayerController : MonoBehaviour
             UIManager.Instance.SpeedupPowerupActivated();
         }
 
-        isSpeedupPowerupActive = true;
+        //isSpeedupPowerupActive = true;
 
         originalMoveIntervalBeforeSpeedupPowerup = moveInterval;
 
@@ -401,7 +435,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
 
-        isSpeedupPowerupActive = false;
+        //isSpeedupPowerupActive = false;
 
         moveInterval = originalMoveIntervalBeforeSpeedupPowerup;
 
