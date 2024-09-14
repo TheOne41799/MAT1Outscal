@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class UIManager : MonoBehaviour
@@ -24,6 +25,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image shieldPowerupImage;
     [SerializeField] private Image scoreBoostPowerupImage;
     [SerializeField] private Image speedupPowerupImage;
+
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI highscoreText;
+
+    [SerializeField] private TextMeshProUGUI finalScoreText;
+    [SerializeField] private TextMeshProUGUI finalHighScoreText;
+
+    private int score;
+    private int highScore;
 
 
     private void Awake()
@@ -158,6 +168,23 @@ public class UIManager : MonoBehaviour
         shieldPowerupImage.enabled = false;
         scoreBoostPowerupImage.enabled = false;
         speedupPowerupImage.enabled = false;
+    }
+
+
+    public void UpdateScore()
+    {
+        score = GameManager.Instance.Score;
+        scoreText.text = score.ToString();
+
+        highScore = GameManager.Instance.HighScore;
+        highscoreText.text = highScore.ToString();
+    }
+
+
+    public void UpdateFinalScores()
+    {
+        finalScoreText.text = "Score: " + score.ToString();
+        finalHighScoreText.text = "Highscore: " + highScore.ToString();
     }
 }
 

@@ -47,6 +47,7 @@ public class SoundManager : MonoBehaviour
         if (clip != null)
         {
             soundBackgroundMusic.clip = clip;
+            soundBackgroundMusic.loop = true;
             soundBackgroundMusic.Play();
         }
         else

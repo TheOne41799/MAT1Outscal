@@ -14,10 +14,17 @@ public class PowerupSpawningController : MonoBehaviour
     [SerializeField] private float maxSpawnInterval = 15f;
     [SerializeField] private float powerupLifeTime = 6f;
 
-    [SerializeField] private LayerMask snakeLayer;
+    /*[SerializeField] private LayerMask snakeBodyTailLayer;
     [SerializeField] private LayerMask foodLayer;
+    [SerializeField] private LayerMask powerupsLayer;*/
+
+    [SerializeField] private LayerMask spawnBlockingLayers;
 
     [SerializeField] private float respawnRadius = 0.5f;
+
+    [SerializeField] private int screenWrappingCordinateX = 34;
+    [SerializeField] private int screenWrappingCordinateTopY = 9;
+    [SerializeField] private int screenWrappingCordinateBottomY = 18;
 
     private List<GameObject> powerupSpawns = new List<GameObject>();
 
@@ -56,10 +63,17 @@ public class PowerupSpawningController : MonoBehaviour
     {
         for (int i = 0; i < 100; i++)
         {
-            Vector2 randomPosition = new Vector2(Random.Range(-18, 18), Random.Range(-18, 18));
+            Vector2 randomPosition = new Vector2(Random.Range(-screenWrappingCordinateX, screenWrappingCordinateX),
+                Random.Range(-screenWrappingCordinateBottomY, screenWrappingCordinateTopY));
 
-            if (!Physics2D.OverlapCircle(randomPosition, respawnRadius, snakeLayer) ||
-                !Physics2D.OverlapCircle(randomPosition, respawnRadius, foodLayer))
+            /*if (!Physics2D.OverlapCircle(randomPosition, respawnRadius, snakeBodyTailLayer) ||
+                !Physics2D.OverlapCircle(randomPosition, respawnRadius, foodLayer) ||
+                !Physics2D.OverlapCircle(randomPosition, respawnRadius, powerupsLayer))
+            {
+                return randomPosition;
+            }*/
+
+            if (!Physics2D.OverlapCircle(randomPosition, respawnRadius, spawnBlockingLayers))
             {
                 return randomPosition;
             }

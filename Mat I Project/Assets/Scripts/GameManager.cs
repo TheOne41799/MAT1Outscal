@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -34,6 +35,12 @@ public class GameManager : MonoBehaviour
     private YesNoPromptContext nextGameMenuContext;
 
     private bool hasBackgroundMusicStarted = false;
+
+    private int score;
+    public int Score {  get { return score; } set { score = value; } }
+
+    private int highScore;
+    public int HighScore { get { return highScore; } set { highScore = value; } }
 
 
     private void Awake()
@@ -81,6 +88,8 @@ public class GameManager : MonoBehaviour
                 hasBackgroundMusicStarted = SoundManager.Instance.IsBackgroundMUsicON;
                 SoundManager.Instance.TurnONSoundsSFX(true);
 
+                LoadHighScore();
+
                 UIManager.Instance.DeactivateAllPowerups();
                 UIManager.Instance.ShowMainMenu();
                 break;
@@ -101,6 +110,9 @@ public class GameManager : MonoBehaviour
                 hasSpawningStarted = false;
                 StopSpawning();
 
+                SaveHighScore();
+
+                UIManager.Instance.UpdateFinalScores();
                 UIManager.Instance.DeactivateAllPowerups();
                 UIManager.Instance.ShowRestartMenuOnePlayer();
                 break;
@@ -373,6 +385,24 @@ public class GameManager : MonoBehaviour
     public void NoButtonPressedOnYesNoPromptMenu()
     {
         SetGameState(previousGameMenuState);
+    }
+
+
+    public void UpdateScore()
+    {
+        UIManager.Instance.UpdateScore();
+    }
+
+
+    private void SaveHighScore()
+    {
+        PlayerPrefs.SetInt("Highscore", highScore);
+    }
+
+
+    private void LoadHighScore()
+    {
+        highScore = PlayerPrefs.GetInt("Highscore", 0);
     }
 }
 

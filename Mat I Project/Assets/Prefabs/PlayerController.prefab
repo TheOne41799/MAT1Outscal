@@ -68,11 +68,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff1af5d3584866469117b6e518783fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerID: 1
   snakeBodyPrefab: {fileID: 8817650408669137484, guid: 7c2a113af09c8814cad8b942077eb494, type: 3}
   snakeTailPrefab: {fileID: 1594036786920538815, guid: d29c36985b30c374086465dda8fc0007, type: 3}
   initialBodyCount: 6
   increaseLengthBy: 3
   decreaseLengthBy: 1
+  screenWrappingCordinateX: 34
+  screenWrappingCordinateTopY: 9
+  screenWrappingCordinateBottomY: 18
 --- !u!61 &4443099429961392852
 BoxCollider2D:
   m_ObjectHideFlags: 0
