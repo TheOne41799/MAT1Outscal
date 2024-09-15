@@ -49,17 +49,19 @@ A modern take on the classic Snake game with exciting features like powerups and
 ## 🖼️ Screenshots
 
 ### Title Screen Mode
+![image alt](https://github.com/TheOne41799/MAT1Outscal/blob/main/Screenshot%201.png?raw=true)
 
 
 ### Single Player Mode with shield active
+![image alt](https://github.com/TheOne41799/MAT1Outscal/blob/main/Screenshot%202.png?raw=true)
 
 
 ### Two Player Mode
+![image alt](https://github.com/TheOne41799/MAT1Outscal/blob/main/Screenshot%203.png?raw=true)
 
 
-### Powerups Active
-
-
+### GameOver 2 Player
+![image alt](https://github.com/TheOne41799/MAT1Outscal/blob/main/Screenshot%204.png?raw=true)
 ---
 
 ## 💾 Save System
@@ -67,13 +69,3 @@ A modern take on the classic Snake game with exciting features like powerups and
 Your high score is automatically saved using `PlayerPrefs`, ensuring that your progress is preserved between sessions.
 
 ---
-
-## 🔧 Installation and Setup
-
-1. Clone this repository to your local machine:
-   ```bash
-   git clone https://github.com/your-username/snake-game.git
-   cd snake-game
-
-
-
