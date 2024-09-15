@@ -1,5 +1,5 @@
 
-![image alt](https://github.com/TheOne41799/Snake-Game-Outscal-Mat-Project/blob/main/Screenshot%201.png?raw=true)
+[![Watch the video](https://img.youtube.com/vi/ksaUojnINoo/maxresdefault.jpg)](https://www.youtube.com/watch?v=ksaUojnINoo&t=20s)
 
 
 # 🐍 Snake 2D Game
