@@ -65,7 +65,10 @@ A modern take on the classic Snake game with exciting features like powerups and
 ---
 
 ## 💾 Save System
-
 Your high score is automatically saved using `PlayerPrefs`, ensuring that your progress is preserved between sessions.
+---
 
+## Music Track
+RoleMusic - Juglar Street  
+https://freemusicarchive.org/music/Rolemusic
 ---
